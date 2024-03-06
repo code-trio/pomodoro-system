@@ -3,7 +3,18 @@
 <head>
   <style>
     body{
-      background-image: url(https://cdn.pixabay.com/photo/2017/08/06/22/01/books-2596809_1280.jpg);
+      background-image: url('landscape-7901065.jpg');
+      background-size: cover;
+      background-position: center;
+     
+    }
+    .container{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh; 
+      flex-direction: column; /* Stack items vertically */
+      border: 1px solid black;
     }
   </style>
     <meta charset="UTF-8">
@@ -14,13 +25,16 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Pomodoro Timer</h1>
-        <p class="timer" id="timer">25:00</p>
+        <h1 class="title">Pomodoro Timer</h1><br>
+    
+   
+        <h1 class="timer" id="timer">25:00</h1><br>
         <div class="button-wrapper">
             <button id="start">Start</button>
             <button id="stop">Stop</button>
             <button id="reset">Reset</button>
         </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
