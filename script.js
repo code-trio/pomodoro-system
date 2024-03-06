@@ -1,56 +1,42 @@
+const startEl = document.getElementById("start");
+const stopEl = document.getElementById("stop");
+const resetEl = document.getElementById("reset");
+const timerEl = document.getElementById("timer");
+
 let interval;
-let timeLeft;
-let isRunning = false;
+let timeLeft = 1500;
 
-const startButton = document.getElementById('startButton');
-const resetButton = document.getElementById('resetButton');
-const timeDisplay = document.getElementById('time');
+function updateTimer() {
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  let formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
 
-startButton.addEventListener('click', startTimer);
-resetButton.addEventListener('click', resetTimer);
+  timerEl.innerHTML = formattedTime;
+}
 
 function startTimer() {
-  if (!isRunning) {
-    isRunning = true;
-    startButton.textContent = 'Pause';
-    startButton.style.backgroundColor = 'red';
-    const startTime = Date.now();
-    const endTime = startTime + timeLeft * 60000;
-
-    updateTimer(endTime);
-
-    interval = setInterval(() => {
-      updateTimer(endTime);
-    }, 1000);
-  } else {
-    isRunning = false;
-    startButton.textContent = 'Resume';
-    startButton.style.backgroundColor = '';
-    clearInterval(interval);
-  }
+  interval = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft === 0) {
+      clearInterval(interval);
+      alert("Time's up!");
+      timeLeft = 1500;
+      updateTimer();
+    }
+  }, 1000);
 }
-
-function updateTimer(endTime) {
-  const timeDifference = endTime - Date.now();
-  if (timeDifference <= 0) {
-    clearInterval(interval);
-    isRunning = false;
-    startButton.textContent = 'Start';
-    startButton.style.backgroundColor = '';
-    timeDisplay.textContent = '00:00';
-  } else {
-    const minutes = Math.floor(timeDifference / 60000);
-    const seconds = Math.floor((timeDifference % 60000) / 1000);
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    timeDisplay.textContent = formattedTime;
-  }
+function stopTimer() {
+  clearInterval(interval);
 }
-
 function resetTimer() {
   clearInterval(interval);
-  isRunning = false;
-  startButton.textContent = 'Start';
-  startButton.style.backgroundColor = '';
-  timeDisplay.textContent = '25:00';
-  timeLeft = 25;
+  timeLeft = 1500;
+  updateTimer();
 }
+
+startEl.addEventListener("click", startTimer);
+stopEl.addEventListener("click", stopTimer);
+resetEl.addEventListener("click", resetTimer);
